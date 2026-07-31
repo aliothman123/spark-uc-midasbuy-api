@@ -3,7 +3,7 @@
 > **API مستقل توسعه‌دهندگان** برای redeem کدهای UC به سبک Midasbuy، بررسی voucher، lookup بازیکن و اتوماسیون انبار.  
 > وابسته به Midasbuy، Krafton یا Tencent **نیست**.
 
-[![Telegram](https://img.shields.io/badge/Telegram-@SparkUCBot-26A5E4?style=flat&logo=telegram)](https://t.me/SparkUCBot)
+[![Telegram](https://img.shields.io/badge/Telegram-@SparkUCBot-26A5E4?style=flat&logo=telegram)](https://telegram.me/SparkUCBot)
 [![Docs](https://img.shields.io/badge/Docs-api.pubgredeemerbot.com-2dd4bf?style=flat)](https://api.pubgredeemerbot.com/docs)
 
 **زبان‌ها:** [EN](./README.md) · [AR](./README.ar.md) · [RU](./README.ru.md) · [UR](./README.ur.md) · [FA](./README.fa.md) · [TR](./README.tr.md) · [HI](./README.hi.md) · [中文](./README.zh-CN.md)
@@ -12,7 +12,7 @@
 
 ## معرفی
 
-**Spark UC Bot** — REST API روی `https://api.pubgredeemerbot.com` برای کدهای **UC PUBG Mobile / Midasbuy** — همان pipeline ربات [@SparkUCBot](https://t.me/SparkUCBot).
+**Spark UC Bot** — REST API روی `https://api.pubgredeemerbot.com` برای کدهای **UC PUBG Mobile / Midasbuy** — همان pipeline ربات [@SparkUCBot](https://telegram.me/SparkUCBot).
 
 - فعال‌سازی UC — `POST /v1/jobs/manual-redeem`
 - بررسی کد (۱–۱۰) — `POST /v1/jobs/check-code`
@@ -30,9 +30,9 @@
 | API | https://api.pubgredeemerbot.com |
 | مستندات | https://api.pubgredeemerbot.com/docs |
 | Swagger | https://api.pubgredeemerbot.com/swagger |
-| Landing | https://www.pubgredeemerbot.com/midasbuy-api.html?lang=fa |
-| ربات | https://t.me/SparkUCBot |
-| پشتیبانی | https://t.me/sparkuc_support |
+| Landing | https://www.pubgredeemerbot.com/fa/midasbuy-api.html |
+| ربات | https://telegram.me/SparkUCBot |
+| پشتیبانی | https://telegram.me/sparkuc_support |
 
 ---
 

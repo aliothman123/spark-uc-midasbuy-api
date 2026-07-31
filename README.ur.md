@@ -3,7 +3,7 @@
 > **آزاد developer API** — Midasbuy-style UC redeem، code check، player lookup، stock automation۔  
 > Midasbuy، Krafton، Tencent سے وابستہ نہیں۔
 
-[![Telegram](https://img.shields.io/badge/Telegram-@SparkUCBot-26A5E4?style=flat&logo=telegram)](https://t.me/SparkUCBot)
+[![Telegram](https://img.shields.io/badge/Telegram-@SparkUCBot-26A5E4?style=flat&logo=telegram)](https://telegram.me/SparkUCBot)
 [![Docs](https://img.shields.io/badge/Docs-api.pubgredeemerbot.com-2dd4bf?style=flat)](https://api.pubgredeemerbot.com/docs)
 
 **زبانیں:** [EN](./README.md) · [AR](./README.ar.md) · [RU](./README.ru.md) · [UR](./README.ur.md) · [FA](./README.fa.md) · [TR](./README.tr.md) · [HI](./README.hi.md) · [中文](./README.zh-CN.md)
@@ -12,7 +12,7 @@
 
 ## تعارف
 
-**Spark UC Bot** کا HTTP API: `https://api.pubgredeemerbot.com` — **PUBG Mobile UC / Midasbuy** codes [@SparkUCBot](https://t.me/SparkUCBot) جیسا ہی flow۔
+**Spark UC Bot** کا HTTP API: `https://api.pubgredeemerbot.com` — **PUBG Mobile UC / Midasbuy** codes [@SparkUCBot](https://telegram.me/SparkUCBot) جیسا ہی flow۔
 
 - UC redeem — `POST /v1/jobs/manual-redeem`
 - Code check (10 تک) — `POST /v1/jobs/check-code`
@@ -30,9 +30,9 @@
 | API | https://api.pubgredeemerbot.com |
 | Docs | https://api.pubgredeemerbot.com/docs |
 | Swagger | https://api.pubgredeemerbot.com/swagger |
-| Landing | https://www.pubgredeemerbot.com/midasbuy-api.html?lang=ur |
-| Bot | https://t.me/SparkUCBot |
-| Support | https://t.me/sparkuc_support |
+| Landing | https://www.pubgredeemerbot.com/ur/midasbuy-api.html |
+| Bot | https://telegram.me/SparkUCBot |
+| Support | https://telegram.me/sparkuc_support |
 
 ---
 

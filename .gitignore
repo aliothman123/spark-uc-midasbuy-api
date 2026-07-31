@@ -1,0 +1,7 @@
+# Safety — do not commit secrets or bot source
+.env
+.env.*
+*.pem
+*.key
+__pycache__/
+*.pyc

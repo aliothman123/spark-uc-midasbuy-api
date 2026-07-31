@@ -3,18 +3,20 @@
 > **Independent developer API** for Midasbuy-style PUBG Mobile UC voucher **redeem**, **code check**, **player lookup**, and **stock batch** automation.  
 > Not affiliated with Midasbuy, Krafton, or Tencent.
 
-[![Telegram Bot](https://img.shields.io/badge/Telegram-@SparkUCBot-26A5E4?style=flat&logo=telegram&logoColor=white)](https://t.me/SparkUCBot)
+[![Telegram Bot](https://img.shields.io/badge/Telegram-@SparkUCBot-26A5E4?style=flat&logo=telegram&logoColor=white)](https://telegram.me/SparkUCBot)
 [![API Docs](https://img.shields.io/badge/Live%20Docs-api.pubgredeemerbot.com-2dd4bf?style=flat)](https://api.pubgredeemerbot.com/docs)
 [![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=flat)](https://api.pubgredeemerbot.com/swagger)
 [![Website](https://img.shields.io/badge/Landing%20Page-pubgredeemerbot.com-blue?style=flat)](https://www.pubgredeemerbot.com/midasbuy-api.html)
 
 **Languages:** [English](./README.md) · [العربية](./README.ar.md) · [Русский](./README.ru.md) · [اردو](./README.ur.md) · [فارسی](./README.fa.md) · [Türkçe](./README.tr.md) · [हिन्दी](./README.hi.md) · [中文](./README.zh-CN.md)
 
+![Spark UC Bot — Midasbuy API for PUBG Mobile UC redeem](./docs/images/spark-uc-midasbuy-api-cover.png)
+
 ---
 
 ## What is this?
 
-**Spark UC Bot** exposes a production **HTTP REST API** at `https://api.pubgredeemerbot.com` that processes **Midasbuy-style PUBG Mobile UC redemption codes** — the same pipeline used by the Telegram bot [@SparkUCBot](https://t.me/SparkUCBot).
+**Spark UC Bot** exposes a production **HTTP REST API** at `https://api.pubgredeemerbot.com` that processes **Midasbuy-style PUBG Mobile UC redemption codes** — the same pipeline used by the Telegram bot [@SparkUCBot](https://telegram.me/SparkUCBot).
 
 Use it to:
 
@@ -25,6 +27,14 @@ Use it to:
 - Read **account, quota, history, and stock summary**
 
 Perfect for **reseller panels**, **shops**, **automation scripts**, and **SaaS integrations**.
+
+### Screenshots
+
+![PUBG UC redeem HTTP API — POST manual-redeem and job status](./docs/images/pubg-uc-redeem-api.webp)
+
+![Midasbuy code check API — valid, used, or expired vouchers](./docs/images/midasbuy-code-check-api.webp)
+
+![PUBG Mobile player ID lookup before UC redeem](./docs/images/pubg-player-id-lookup.webp)
 
 ---
 
@@ -38,8 +48,8 @@ Perfect for **reseller panels**, **shops**, **automation scripts**, and **SaaS i
 | **OpenAPI JSON** | https://api.pubgredeemerbot.com/openapi.json |
 | **Health check** | https://api.pubgredeemerbot.com/health |
 | **Landing page** (SEO + 8 languages) | https://www.pubgredeemerbot.com/midasbuy-api.html |
-| **Telegram bot** | https://t.me/SparkUCBot |
-| **Support** | https://t.me/sparkuc_support |
+| **Telegram bot** | https://telegram.me/SparkUCBot |
+| **Support** | https://telegram.me/sparkuc_support |
 
 ---
 
@@ -91,7 +101,7 @@ Full reference: [docs/ENDPOINTS.md](./docs/ENDPOINTS.md) · Live: [api.pubgredee
 
 ### 1. Subscribe + API add-on
 
-Open [@SparkUCBot](https://t.me/SparkUCBot) → top up USDT → choose a daily plan → buy **HTTP API add-on** → copy your API key.
+Open [@SparkUCBot](https://telegram.me/SparkUCBot) → top up USDT → choose a daily plan → buy **HTTP API add-on** → copy your API key.
 
 ### 2. Create a job
 
@@ -139,6 +149,7 @@ Then poll `GET /v1/jobs/{job_id}` for validation results (valid / used / expired
 | Pro | 1,000 / day | 25 USDT |
 | Enterprise | 2,500 / day | 50 USDT |
 | Ultra | 5,000 / day | 85 USDT |
+| Titan | 10,000 / day | 135 USDT |
 | **HTTP API add-on** | 30 days | **15 USDT** (requires active plan) |
 
 Limits reset every 24h. Multiple active plans combine limits. Checkout inside Telegram.
@@ -171,13 +182,24 @@ No. POST returns `job_id`; poll `GET /v1/jobs/{id}`. Lookup is sync GET.
 
 ---
 
-## Keywords & use cases
+## Use cases
 
-Midasbuy API · Midasbuy redeem API · PUBG Mobile UC API · Midasbuy code check API · voucher validation API · UC redemption API · pubgredeemerbot API · SparkUCBot API · Midasbuy integration · PUBG UC reseller API · auto redeem Midasbuy · Unknown Cash API · Midasbuy automation · player lookup API · stock redeem API · PUBG UC bot API · Telegram UC bot · HTTP API PUBG Mobile
+**Reseller panels** — validate a batch of vouchers with the code-check endpoint before listing
+them for sale, then auto-redeem UC to the buyer's Player ID once payment clears.
+
+**Web shops** — call player lookup at checkout so the customer confirms their nickname and
+region before paying, which removes almost all "wrong Player ID" refunds.
+
+**Stock automation** — upload inventory once and drive PUBG Mobile UC redemption from your own
+queue with `stock-redeem`, instead of pasting Midasbuy codes by hand.
+
+**Bots and integrations** — the same redemption pipeline behind the Telegram bot is available as
+a REST API, so a Discord bot, a billing system, or an internal tool can redeem Unknown Cash
+codes programmatically.
 
 ---
 
 ## Support
 
-- Telegram: [@sparkuc_support](https://t.me/sparkuc_support)
+- Telegram: [@sparkuc_support](https://telegram.me/sparkuc_support)
 - Website: [www.pubgredeemerbot.com](https://www.pubgredeemerbot.com)
