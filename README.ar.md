@@ -30,11 +30,11 @@
 
 ### لقطات الشاشة
 
-![واجهة HTTP API لتفعيل شدات ببجي — طلب manual-redeem](./docs/images/pubg-uc-redeem-api.webp)
+![واجهة HTTP API لتفعيل شدات ببجي — طلب manual-redeem](./docs/images/pubg-uc-redeem-api.png)
 
-![فحص أكواد Midasbuy عبر API — صالح / مستخدم / منتهي](./docs/images/midasbuy-code-check-api.webp)
+![فحص أكواد Midasbuy عبر API — صالح / مستخدم / منتهي](./docs/images/midasbuy-code-check-api.png)
 
-![فحص معرف لاعب ببجي موبايل قبل شحن الشدات](./docs/images/pubg-player-id-lookup.webp)
+![فحص معرف لاعب ببجي موبايل قبل شحن الشدات](./docs/images/pubg-player-id-lookup.png)
 
 ---
 

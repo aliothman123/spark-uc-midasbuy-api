@@ -28,11 +28,11 @@
 
 ### Скриншоты
 
-![HTTP API активации UC PUBG — POST manual-redeem](./docs/images/pubg-uc-redeem-api.webp)
+![HTTP API активации UC PUBG — POST manual-redeem](./docs/images/pubg-uc-redeem-api.png)
 
-![Midasbuy API проверки кодов — valid / used / expired](./docs/images/midasbuy-code-check-api.webp)
+![Midasbuy API проверки кодов — valid / used / expired](./docs/images/midasbuy-code-check-api.png)
 
-![Проверка ID игрока PUBG Mobile перед активацией UC](./docs/images/pubg-player-id-lookup.webp)
+![Проверка ID игрока PUBG Mobile перед активацией UC](./docs/images/pubg-player-id-lookup.png)
 
 ---
 

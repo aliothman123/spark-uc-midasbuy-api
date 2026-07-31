@@ -30,11 +30,11 @@ Perfect for **reseller panels**, **shops**, **automation scripts**, and **SaaS i
 
 ### Screenshots
 
-![PUBG UC redeem HTTP API — POST manual-redeem and job status](./docs/images/pubg-uc-redeem-api.webp)
+![PUBG UC redeem HTTP API — POST manual-redeem and job status](./docs/images/pubg-uc-redeem-api.png)
 
-![Midasbuy code check API — valid, used, or expired vouchers](./docs/images/midasbuy-code-check-api.webp)
+![Midasbuy code check API — valid, used, or expired vouchers](./docs/images/midasbuy-code-check-api.png)
 
-![PUBG Mobile player ID lookup before UC redeem](./docs/images/pubg-player-id-lookup.webp)
+![PUBG Mobile player ID lookup before UC redeem](./docs/images/pubg-player-id-lookup.png)
 
 ---
 
