@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img">
+  <rect width="1200" height="630" fill="#070806"/>
+  <circle cx="980" cy="80" r="220" fill="rgba(200,245,66,0.12)"/>
+  <circle cx="160" cy="560" r="260" fill="rgba(255,122,69,0.1)"/>
+  <text x="80" y="160" font-family="Sora,Segoe UI,Arial,sans-serif" font-size="28" fill="#c8f542" letter-spacing="6">GITHUB DEVELOPER HUB</text>
+  <text x="80" y="260" font-family="Sora,Segoe UI,Arial,sans-serif" font-size="64" font-weight="700" fill="#e8f0d2">Spark UC API</text>
+  <text x="80" y="330" font-family="Sora,Segoe UI,Arial,sans-serif" font-size="34" fill="#9aa68a">PUBG Mobile UC redeem · check · lookup</text>
+  <text x="80" y="520" font-family="JetBrains Mono,Consolas,monospace" font-size="24" fill="#7ec8ff">aliothman123/spark-uc-midasbuy-api</text>
+  <text x="80" y="565" font-family="Sora,Segoe UI,Arial,sans-serif" font-size="22" fill="#c8f542">pubgredeemerbot.com</text>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Spark UC">
+  <rect width="64" height="64" rx="10" fill="#070806"/>
+  <rect x="4" y="4" width="56" height="56" rx="8" fill="none" stroke="#c8f542" stroke-width="2"/>
+  <path fill="#c8f542" d="M34 12 L20 36 h12 l-4 16 18-28 H34 z"/>
+</svg>
