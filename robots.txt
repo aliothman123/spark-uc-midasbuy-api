@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aliothman123.github.io/spark-uc-midasbuy-api/sitemap.xml

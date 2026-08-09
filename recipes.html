@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Integration Recipes — Spark UC API | Reseller Panel &amp; Shop Flows</title>
+  <meta name="description" content="Practical Spark UC Bot API recipes: poll redeem jobs, validate Midasbuy-style codes before sale, player lookup at checkout, Python poll loop examples."/>
+  <meta name="robots" content="index,follow"/>
+  <link rel="canonical" href="https://aliothman123.github.io/spark-uc-midasbuy-api/recipes.html"/>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://aliothman123.github.io/spark-uc-midasbuy-api/recipes.html"/>
+  <meta property="og:title" content="Spark UC API integration recipes"/>
+  <meta property="og:description" content="Reseller panel, shop checkout, and Python polling patterns for PUBG UC redeem API."/>
+  <meta property="og:image" content="https://aliothman123.github.io/spark-uc-midasbuy-api/assets/og-cover.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./assets/css/style.css"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Spark UC API integration recipes",
+    "description": "Reseller panel, shop checkout, and polling patterns for PUBG Mobile UC redeem API.",
+    "author": { "@type": "Organization", "name": "Spark UC Bot", "url": "https://www.pubgredeemerbot.com/" },
+    "mainEntityOfPage": "https://aliothman123.github.io/spark-uc-midasbuy-api/recipes.html"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="./">
+        <img src="./assets/favicon.svg" width="36" height="36" alt=""/>
+        Spark UC <span style="color:var(--signal)">API</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="./">Hub</a>
+        <a href="./recipes.html" aria-current="page">Recipes</a>
+        <a href="./bot.html">Telegram bot</a>
+        <a href="https://api.pubgredeemerbot.com/docs" rel="noopener">Docs</a>
+        <a class="pill" href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" style="padding-bottom:2rem">
+      <div class="wrap">
+        <p class="hero-kicker">Recipes</p>
+        <h1 style="max-width:18ch">Patterns that ship in production panels</h1>
+        <p class="hero-lead">
+          Copy these flows into your reseller dashboard, Discord bot, or checkout.
+          Canonical docs stay on
+          <a href="https://api.pubgredeemerbot.com/docs" rel="noopener">api.pubgredeemerbot.com/docs</a>.
+        </p>
+        <div class="link-row">
+          <a href="https://www.pubgredeemerbot.com/midasbuy-api.html" rel="noopener">Official site</a>
+          <a href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">GitHub repo</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="wrap recipe">
+        <article class="reveal" id="shop-checkout">
+          <h3>1) Shop checkout — lookup then pay then redeem</h3>
+          <p>
+            At checkout, call <code class="inline">GET /v1/player/lookup?player_id=…</code>,
+            show nickname + region to the buyer, take payment, then
+            <code class="inline">POST /v1/jobs/manual-redeem</code> and poll.
+          </p>
+        </article>
+        <article class="reveal" id="reseller-validate">
+          <h3>2) Reseller inventory — check-code before listing</h3>
+          <p>
+            When a seller uploads vouchers, fire <code class="inline">POST /v1/jobs/check-code</code>
+            (up to 10 codes). Only mark “listed” when status is available.
+            Dead codes never reach the storefront.
+          </p>
+        </article>
+        <article class="reveal" id="stock-queue">
+          <h3>3) Internal queue — stock-redeem</h3>
+          <p>
+            Upload stock once via the Telegram bot, then let your worker call
+            <code class="inline">POST /v1/jobs/stock-redeem</code> as orders arrive.
+            Keeps secrets out of your panel DB.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 id="python-poll">Python poll loop</h2>
+          <p>Minimal pattern — swap in your HTTP client of choice.</p>
+        </div>
+        <div class="terminal reveal">
+          <div class="terminal-bar"><span></span><span></span><span></span> python · poll job</div>
+          <pre><span class="cm">import time, requests</span>
+
+BASE = "https://api.pubgredeemerbot.com"
+H = {"X-API-Key": "YOUR_API_KEY", "Content-Type": "application/json"}
+
+r = requests.post(f"{BASE}/v1/jobs/manual-redeem", headers=H, json={
+    "player_id": "5123456789",
+    "codes": ["XXXX-XXXX-XXXX-XXXX"],
+})
+job_id = r.json()["job_id"]
+
+while True:
+    j = requests.get(f"{BASE}/v1/jobs/{job_id}", headers=H).json()
+    st = j.get("status")
+    if st in ("done", "failed"):
+        print(st, j)
+        break
+    time.sleep(1.2)</pre>
+        </div>
+        <p class="reveal" style="color:var(--muted);margin-top:1.25rem">
+          Need the key? Open <a href="https://telegram.me/SparkUCBot" rel="noopener">@SparkUCBot</a> → plan + HTTP API add-on.
+          Marketing overview:
+          <a href="https://www.pubgredeemerbot.com/midasbuy-api.html" rel="noopener">pubgredeemerbot.com/midasbuy-api.html</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <strong>Spark UC API Hub</strong> ·
+      <a href="./">Home</a> ·
+      <a href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">GitHub</a> ·
+      <a href="https://www.pubgredeemerbot.com/" rel="noopener">Official site</a>
+      <div class="disclaimer">Independent service — not affiliated with Midasbuy / Krafton / Tencent.</div>
+    </div>
+  </footer>
+  <script src="./assets/js/main.js" defer></script>
+</body>
+</html>

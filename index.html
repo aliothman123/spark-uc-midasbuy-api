@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Spark UC API — PUBG Mobile UC Redeem Developer Hub | GitHub Pages</title>
+  <meta name="description" content="Developer hub for Spark UC Bot HTTP API: redeem PUBG Mobile UC / Midasbuy-style codes, check vouchers, player lookup, and stock automation. Links to docs, Swagger, official site, and GitHub."/>
+  <meta name="keywords" content="Spark UC API, PUBG UC redeem API, Midasbuy API, check code API, player lookup, pubgredeemerbot, SparkUCBot, UC reseller API"/>
+  <meta name="robots" content="index,follow,max-image-preview:large"/>
+  <meta name="author" content="Spark UC Bot"/>
+  <meta name="theme-color" content="#070806"/>
+  <link rel="canonical" href="https://aliothman123.github.io/spark-uc-midasbuy-api/"/>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml"/>
+
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Spark UC API Hub"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="https://aliothman123.github.io/spark-uc-midasbuy-api/"/>
+  <meta property="og:title" content="Spark UC API — PUBG Mobile UC Redeem Developer Hub"/>
+  <meta property="og:description" content="Build shops &amp; reseller panels with Spark UC Bot HTTP API: redeem, check-code, player lookup, stock jobs."/>
+  <meta property="og:image" content="https://aliothman123.github.io/spark-uc-midasbuy-api/assets/og-cover.svg"/>
+  <meta property="og:image:alt" content="Spark UC API GitHub developer hub"/>
+
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Spark UC API — Developer Hub"/>
+  <meta name="twitter:description" content="PUBG Mobile UC redeem API hub: docs, recipes, bot links, GitHub repo."/>
+  <meta name="twitter:image" content="https://aliothman123.github.io/spark-uc-midasbuy-api/assets/og-cover.svg"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./assets/css/style.css"/>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://aliothman123.github.io/spark-uc-midasbuy-api/#website",
+        "url": "https://aliothman123.github.io/spark-uc-midasbuy-api/",
+        "name": "Spark UC API Developer Hub",
+        "description": "GitHub Pages hub for Spark UC Bot PUBG Mobile UC HTTP API.",
+        "publisher": { "@id": "https://www.pubgredeemerbot.com/#org" },
+        "inLanguage": "en"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.pubgredeemerbot.com/#org",
+        "name": "Spark UC Bot",
+        "url": "https://www.pubgredeemerbot.com/",
+        "sameAs": [
+          "https://github.com/aliothman123/spark-uc-midasbuy-api",
+          "https://telegram.me/SparkUCBot",
+          "https://api.pubgredeemerbot.com/docs"
+        ],
+        "logo": "https://www.pubgredeemerbot.com/assets/favicon.svg"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Spark UC Bot HTTP API",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "15",
+          "priceCurrency": "USD",
+          "description": "HTTP API add-on (30 days) requires an active subscription plan"
+        },
+        "url": "https://api.pubgredeemerbot.com/",
+        "downloadUrl": "https://github.com/aliothman123/spark-uc-midasbuy-api",
+        "softwareHelp": "https://api.pubgredeemerbot.com/docs",
+        "description": "Independent HTTP API for Midasbuy-style PUBG Mobile UC redeem, voucher check, and player lookup."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is this the official Midasbuy API?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Spark UC Bot is an independent service. The HTTP API uses the same redemption pipeline as the Telegram bot @SparkUCBot and is not affiliated with Midasbuy, Krafton, or Tencent."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where is the live API documentation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTML docs: https://api.pubgredeemerbot.com/docs — Swagger UI: https://api.pubgredeemerbot.com/swagger — OpenAPI: https://api.pubgredeemerbot.com/openapi.json"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I get an API key?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Open @SparkUCBot on Telegram, activate a subscription plan, purchase the HTTP API add-on (15 USDT / 30 days), then copy your key from the API menu."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="./">
+        <img src="./assets/favicon.svg" width="36" height="36" alt=""/>
+        Spark UC <span style="color:var(--signal)">API</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="./" aria-current="page">Hub</a>
+        <a href="./recipes.html">Recipes</a>
+        <a href="./bot.html">Telegram bot</a>
+        <a href="https://api.pubgredeemerbot.com/docs" rel="noopener">Docs</a>
+        <a class="pill" href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <p class="hero-kicker">Developer hub · not the marketing site</p>
+        <h1>Ship PUBG UC flows with a <em>real</em> HTTP API</h1>
+        <p class="hero-lead">
+          This GitHub Pages hub is for builders: redeem Unknown Cash codes to a Player ID,
+          validate vouchers before sale, confirm nicknames, then automate stock —
+          the same pipeline behind <strong>@SparkUCBot</strong>.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://api.pubgredeemerbot.com/docs" rel="noopener">Open live docs</a>
+          <a class="btn btn-ghost" href="https://api.pubgredeemerbot.com/swagger" rel="noopener">Try Swagger</a>
+          <a class="btn btn-ember" href="https://telegram.me/SparkUCBot" rel="noopener">Get API key</a>
+        </div>
+        <div class="link-row">
+          <a href="https://www.pubgredeemerbot.com/midasbuy-api.html" rel="noopener">Official website</a>
+          <a href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">GitHub repository</a>
+          <a href="https://www.pubgredeemerbot.com/" rel="noopener">pubgredeemerbot.com</a>
+          <a href="./recipes.html">Integration recipes</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="capabilities">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>What you can automate</h2>
+          <p>Async jobs for redeem &amp; check-code. Synchronous player lookup. Same wallet &amp; quota as the Telegram bot.</p>
+        </div>
+        <div class="strips reveal">
+          <div class="strip">
+            <code>POST /v1/jobs/manual-redeem</code>
+            <div>
+              <h3>Redeem UC to Player ID</h3>
+              <p>Send one or more Midasbuy-style voucher codes with a Player ID. Poll <code class="inline">GET /v1/jobs/{id}</code> until done.</p>
+            </div>
+          </div>
+          <div class="strip">
+            <code>POST /v1/jobs/check-code</code>
+            <div>
+              <h3>Validate before you sell</h3>
+              <p>Batch-check up to 10 codes per job — used / available / expired — without redeeming.</p>
+            </div>
+          </div>
+          <div class="strip">
+            <code>GET /v1/player/lookup</code>
+            <div>
+              <h3>Nickname &amp; region check</h3>
+              <p>Confirm the character before checkout. Small quota cost on success; kills wrong-ID refunds.</p>
+            </div>
+          </div>
+          <div class="strip">
+            <code>POST /v1/jobs/stock-redeem</code>
+            <div>
+              <h3>Stock inventory redeem</h3>
+              <p>Drive redemptions from codes you already uploaded in the bot — ideal for panels and queues.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="wrap media-grid split">
+        <figure class="shot reveal">
+          <img src="./assets/img/pubg-uc-redeem-api.webp" width="1000" height="560" alt="HTTP API manual-redeem job for PUBG Mobile UC codes" loading="eager" decoding="async"/>
+          <figcaption>Create a redeem job, then poll status — built for panels and scripts.</figcaption>
+        </figure>
+        <div class="section-head reveal">
+          <h2>Visual proof, not vaporware</h2>
+          <p>
+            Screens from the live product stack. Full SEO landing lives on the
+            <a href="https://www.pubgredeemerbot.com/midasbuy-api.html" rel="noopener">official Midasbuy API page</a>;
+            this hub stays lean for GitHub visitors and crawlers.
+          </p>
+          <div class="cta-row" style="margin-top:1.25rem">
+            <a class="btn btn-ghost" href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">Star the repo</a>
+            <a class="btn btn-ghost" href="https://api.pubgredeemerbot.com/health" rel="noopener">Health check</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="check">
+      <div class="wrap media-grid split reverse">
+        <figure class="shot reveal">
+          <img src="./assets/img/midasbuy-code-check-api.webp" width="1000" height="560" alt="Midasbuy-style code check API showing valid used or expired vouchers" loading="lazy" decoding="async"/>
+          <figcaption>Check-code before listing vouchers for sale.</figcaption>
+        </figure>
+        <div class="section-head reveal">
+          <h2>Code intelligence for resellers</h2>
+          <p>
+            Don’t burn inventory on dead vouchers. Validate first, redeem second.
+            Pair with player lookup so buyers confirm their nickname before payment.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="lookup">
+      <div class="wrap media-grid split">
+        <figure class="shot reveal">
+          <img src="./assets/img/pubg-player-id-lookup.webp" width="1000" height="560" alt="PUBG Mobile player ID lookup returning nickname and region" loading="lazy" decoding="async"/>
+          <figcaption>Player lookup before redeem — nickname + region.</figcaption>
+        </figure>
+        <div class="section-head reveal">
+          <h2>Fewer wrong Player IDs</h2>
+          <p>
+            Lookup is synchronous. Redeem &amp; check-code stay async so your panel never blocks a worker thread.
+            See <a href="./recipes.html">recipes</a> for poll loops in curl / Python.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="quickstart">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>60-second quickstart</h2>
+          <p>Base URL <code class="inline">https://api.pubgredeemerbot.com</code> — send your key as <code class="inline">X-API-Key</code> (or Bearer, depending on client).</p>
+        </div>
+        <div class="terminal reveal">
+          <div class="terminal-bar"><span></span><span></span><span></span> bash · manual-redeem</div>
+          <pre><span class="cm"># 1) Create job</span>
+curl -X POST "https://api.pubgredeemerbot.com/v1/jobs/manual-redeem" \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"player_id":"5123456789","codes":["XXXX-XXXX-XXXX-XXXX"]}'
+
+<span class="cm"># 2) Poll until status is done | failed</span>
+curl -s "https://api.pubgredeemerbot.com/v1/jobs/JOB_ID" \
+  -H "X-API-Key: YOUR_API_KEY"
+
+<span class="cm"># Bonus: validate without redeem</span>
+curl -X POST "https://api.pubgredeemerbot.com/v1/jobs/check-code" \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"codes":["XXXX-XXXX-XXXX-XXXX"]}'</pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="endpoints">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>Core endpoints</h2>
+          <p>Full reference on <a href="https://api.pubgredeemerbot.com/docs" rel="noopener">api.pubgredeemerbot.com/docs</a>.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>GET</td><td><code class="inline">/health</code></td><td>Public health</td></tr>
+              <tr><td>GET</td><td><code class="inline">/v1/me</code></td><td>Account snapshot</td></tr>
+              <tr><td>GET</td><td><code class="inline">/v1/quota</code></td><td>Daily limits</td></tr>
+              <tr><td>GET</td><td><code class="inline">/v1/player/lookup</code></td><td>Nickname / region</td></tr>
+              <tr><td>POST</td><td><code class="inline">/v1/jobs/manual-redeem</code></td><td>Redeem job</td></tr>
+              <tr><td>POST</td><td><code class="inline">/v1/jobs/check-code</code></td><td>Validate vouchers</td></tr>
+              <tr><td>POST</td><td><code class="inline">/v1/jobs/stock-redeem</code></td><td>Stock redeem job</td></tr>
+              <tr><td>GET</td><td><code class="inline">/v1/jobs/{id}</code></td><td>Poll job</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="links">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>Official links</h2>
+          <p>Bookmark these — this Pages site is a satellite, not a replacement.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>Resource</th><th>URL</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Official website</td><td><a href="https://www.pubgredeemerbot.com/" rel="noopener">https://www.pubgredeemerbot.com/</a></td></tr>
+              <tr><td>Midasbuy API landing</td><td><a href="https://www.pubgredeemerbot.com/midasbuy-api.html" rel="noopener">/midasbuy-api.html</a></td></tr>
+              <tr><td>API docs</td><td><a href="https://api.pubgredeemerbot.com/docs" rel="noopener">api.pubgredeemerbot.com/docs</a></td></tr>
+              <tr><td>Swagger</td><td><a href="https://api.pubgredeemerbot.com/swagger" rel="noopener">/swagger</a></td></tr>
+              <tr><td>GitHub repo</td><td><a href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">aliothman123/spark-uc-midasbuy-api</a></td></tr>
+              <tr><td>Telegram bot</td><td><a href="https://telegram.me/SparkUCBot" rel="noopener">@SparkUCBot</a></td></tr>
+              <tr><td>Support</td><td><a href="https://telegram.me/sparkuc_support" rel="noopener">@sparkuc_support</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>FAQ</h2>
+          <p>Short answers for crawlers and humans.</p>
+        </div>
+        <div class="faq reveal">
+          <details>
+            <summary>Is this the official Midasbuy API?</summary>
+            <p>No. Independent Spark UC Bot service — not affiliated with Midasbuy, Krafton, or Tencent.</p>
+          </details>
+          <details>
+            <summary>Bot vs this hub vs the main website?</summary>
+            <p><strong>Bot</strong> = product UI. <strong>Website</strong> = multilingual SEO landing. <strong>This GitHub Pages hub</strong> = developer-oriented entry from the repository.</p>
+          </details>
+          <details>
+            <summary>How much is API access?</summary>
+            <p>Active plan (from 5 USDT / 30 days) + HTTP API add-on 15 USDT / 30 days. Admin may grant API trial.</p>
+          </details>
+          <details>
+            <summary>Where do I report issues?</summary>
+            <p>Telegram <a href="https://telegram.me/sparkuc_support" rel="noopener">@sparkuc_support</a> or GitHub Issues on the <a href="https://github.com/aliothman123/spark-uc-midasbuy-api/issues" rel="noopener">repo</a>.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-grid">
+      <div>
+        <strong>Spark UC API Hub</strong>
+        <p>GitHub Pages satellite for <a href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">spark-uc-midasbuy-api</a>.</p>
+      </div>
+      <div>
+        <strong>Build</strong>
+        <ul>
+          <li><a href="./recipes.html">Recipes</a></li>
+          <li><a href="./bot.html">Telegram bot</a></li>
+          <li><a href="https://api.pubgredeemerbot.com/docs" rel="noopener">API docs</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Product</strong>
+        <ul>
+          <li><a href="https://www.pubgredeemerbot.com/" rel="noopener">Official site</a></li>
+          <li><a href="https://telegram.me/SparkUCBot" rel="noopener">@SparkUCBot</a></li>
+          <li><a href="https://www.pubgredeemerbot.com/midasbuy-api.html" rel="noopener">Midasbuy API page</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap disclaimer">
+      Independent developer service. Not affiliated with Midasbuy, Krafton, Tencent, or PUBG Mobile.
+      Marks belong to their owners. Comply with the game’s terms of service.
+    </div>
+  </footer>
+  <script src="./assets/js/main.js" defer></script>
+</body>
+</html>
