@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://aliothman123.github.io/spark-uc-midasbuy-api/responses.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://aliothman123.github.io/spark-uc-midasbuy-api/recipes.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

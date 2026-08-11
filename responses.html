@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>API Response Catalog — Success, Failure &amp; Error Codes | Spark UC API</title>
+  <meta name="description" content="Complete Spark UC Bot HTTP API response reference: HTTP status codes, job statuses, redeem err_code values, check-code outcomes, player lookup errors, and screenshot errors for developers."/>
+  <meta name="robots" content="index,follow"/>
+  <link rel="canonical" href="https://aliothman123.github.io/spark-uc-midasbuy-api/responses.html"/>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://aliothman123.github.io/spark-uc-midasbuy-api/responses.html"/>
+  <meta property="og:title" content="Spark UC API — response &amp; error catalog"/>
+  <meta property="og:description" content="Every HTTP status, job state, and err_code your integration should handle."/>
+  <meta property="og:image" content="https://aliothman123.github.io/spark-uc-midasbuy-api/assets/og-cover.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./assets/css/style.css"/>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Spark UC API response and error catalog",
+    "description": "Developer reference for HTTP statuses, job lifecycle, redeem err_code values, and structured API errors.",
+    "author": { "@type": "Organization", "name": "Spark UC Bot", "url": "https://www.pubgredeemerbot.com/" },
+    "mainEntityOfPage": "https://aliothman123.github.io/spark-uc-midasbuy-api/responses.html"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap top-inner">
+      <a class="brand" href="./">
+        <img src="./assets/favicon.svg" width="36" height="36" alt=""/>
+        Spark UC <span style="color:var(--signal)">API</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="./">Hub</a>
+        <a href="./responses.html" aria-current="page">Responses</a>
+        <a href="./recipes.html">Recipes</a>
+        <a href="./bot.html">Telegram bot</a>
+        <a href="https://api.pubgredeemerbot.com/docs" rel="noopener">Docs</a>
+        <a class="pill" href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" style="padding-bottom:2rem">
+      <div class="wrap">
+        <p class="hero-kicker">Developer reference</p>
+        <h1 style="max-width:16ch">Handle every success and failure path</h1>
+        <p class="hero-lead">
+          Integrations must treat <strong>three layers</strong> separately: HTTP status, job
+          <code class="inline">status</code>, and per-voucher <code class="inline">success</code> /
+          <code class="inline">err_code</code>. This page catalogs them all.
+        </p>
+        <div class="link-row">
+          <a href="https://api.pubgredeemerbot.com/docs#responses" rel="noopener">Live /docs catalog</a>
+          <a href="https://api.pubgredeemerbot.com/swagger" rel="noopener">Swagger</a>
+          <a href="./recipes.html">Integration recipes</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="wrap">
+        <nav class="toc reveal" aria-label="On this page">
+          <strong>On this page</strong>
+          <ol>
+            <li><a href="#layers">Three response layers</a></li>
+            <li><a href="#http">HTTP status codes</a></li>
+            <li><a href="#structured">Structured <code>detail.error</code> codes</a></li>
+            <li><a href="#jobs">Job lifecycle</a></li>
+            <li><a href="#redeem">Redeem <code>err_code</code> catalog</a></li>
+            <li><a href="#check">Check-code outcomes</a></li>
+            <li><a href="#lookup">Player lookup</a></li>
+            <li><a href="#screenshot">Order screenshot</a></li>
+            <li><a href="#examples">JSON examples</a></li>
+            <li><a href="#checklist">Client checklist</a></li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    <section id="layers">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>1) Three response layers</h2>
+          <p>Never conflate these. A request can be HTTP 200 with a failed redeem inside.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>Layer</th><th>Where</th><th>Means</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-info">HTTP</span></td>
+                <td>Status line + optional JSON <code class="inline">detail</code></td>
+                <td>Auth, validation, rate limits, resource existence. Does <em>not</em> mean UC was credited.</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-warn">Job</span></td>
+                <td><code class="inline">GET /v1/jobs/{id}</code> → <code class="inline">status</code> / <code class="inline">error</code></td>
+                <td>Queue lifecycle: pending → running → <strong>done</strong> or <strong>failed</strong>.</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-ok">Outcome</span></td>
+                <td><code class="inline">result.success</code>, <code class="inline">result.results[].success</code>, <code class="inline">err_code</code>, check-code <code class="inline">ok</code></td>
+                <td>Whether each voucher redeemed / validated. Inspect even when job <code class="inline">status</code> is <code class="inline">done</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout reveal">
+          <strong>Critical:</strong> <code class="inline">status: "done"</code> means the worker finished.
+          For redeem jobs, check every row’s <code class="inline">success</code> (and <code class="inline">err_code</code> on failure).
+          Partial batches are common: some codes succeed, others return <code class="inline">REDEEM_CODE_ALREADY_USED</code>.
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="http">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>2) HTTP status codes</h2>
+          <p>FastAPI-style errors use a JSON body with <code class="inline">detail</code> (string or object). Prefer reading <code class="inline">detail.error</code> when present.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>HTTP</th><th>When</th><th>Client action</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="inline">200</code></td>
+                <td>OK. For jobs: document returned (inspect <code class="inline">status</code>). For screenshot: binary WebP.</td>
+                <td>Parse body; branch on job / outcome layers.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">400</code></td>
+                <td>Bad input: invalid player id, missing/invalid codes, purchase choice required, screenshot not applicable.</td>
+                <td>Fix payload; show <code class="inline">detail.message</code> to operators.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">401</code></td>
+                <td>Missing or invalid <code class="inline">X-API-Key</code>.</td>
+                <td>Re-copy key from Telegram bot.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">403</code></td>
+                <td>No active plan + HTTP API add-on; or player banned on lookup.</td>
+                <td>Renew subscription, or block that Player ID.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">404</code></td>
+                <td>Unknown job; player not found (lookup); missing docs asset.</td>
+                <td>Verify id / Player ID.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">409</code></td>
+                <td><code class="inline">JOB_NOT_READY</code> — screenshot while job still pending/running.</td>
+                <td>Poll until <code class="inline">done</code>, then retry.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">429</code></td>
+                <td>Per-minute throttle (<code class="inline">RATE_LIMIT</code> / <code class="inline">SCREENSHOT_RATE_LIMIT</code>) or daily/trial <code class="inline">quota_exhausted</code>.</td>
+                <td>Honor <code class="inline">Retry-After: 60</code>; call <code class="inline">GET /v1/quota</code>.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">500</code></td>
+                <td>Unexpected server error (e.g. <code class="inline">ORDER_SCREENSHOT_FAILED</code>).</td>
+                <td>Retry with backoff; contact support if persistent.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">501</code></td>
+                <td><code class="inline">WEBP_ENCODE_FAILED</code>.</td>
+                <td>Server WebP support issue — use JSON <code class="inline">order_details</code> instead.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">502</code></td>
+                <td>Upstream lookup failure (<code class="inline">LOOKUP_FAILED</code>).</td>
+                <td>Retry later; no quota charged for failed lookup.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">503</code></td>
+                <td><code class="inline">SERVICE_UNAVAILABLE</code> (temporary capacity / account path).</td>
+                <td>Retry in a few minutes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="structured">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>3) Structured <code class="inline">detail.error</code> codes</h2>
+          <p>Returned on many non-2xx responses as <code class="inline">{"detail":{"error":"…","message":"…"}}</code> (or top-level <code class="inline">error</code> on some 429 bodies).</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>error</th><th>HTTP</th><th>Endpoints</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code class="inline">INVALID_PLAYER_ID</code></td><td>400</td><td>lookup, manual/stock redeem</td><td>Player id failed format validation.</td></tr>
+              <tr><td><code class="inline">MISSING_CODES</code></td><td>400</td><td>check-code, manual-redeem</td><td>All <code class="inline">codes</code> empty after trim.</td></tr>
+              <tr><td><code class="inline">TOO_MANY_CODES</code></td><td>400</td><td>check-code, manual-redeem</td><td>More than 10 vouchers in one job.</td></tr>
+              <tr><td><code class="inline">INVALID_CODE</code></td><td>400</td><td>check-code, manual-redeem</td><td>Voucher at index not 18 alphanumeric chars.</td></tr>
+              <tr><td><code class="inline">SAME_PLAN_CHOICE_REQUIRED</code></td><td>400</td><td>subscription/purchase</td><td>Re-buying active plan needs <code class="inline">same_plan_action</code>: <code class="inline">extend</code> | <code class="inline">stack</code>.</td></tr>
+              <tr><td><code class="inline">PLAYER_NOT_FOUND</code></td><td>404</td><td>player/lookup</td><td>No character for that Player ID.</td></tr>
+              <tr><td><code class="inline">PLAYER_BANNED</code></td><td>403</td><td>player/lookup</td><td>Account restricted; UC cannot be sent.</td></tr>
+              <tr><td><code class="inline">SERVICE_UNAVAILABLE</code></td><td>503</td><td>player/lookup</td><td>Temporary upstream/account shortage.</td></tr>
+              <tr><td><code class="inline">LOOKUP_FAILED</code></td><td>502</td><td>player/lookup</td><td>Generic upstream failure.</td></tr>
+              <tr><td><code class="inline">RATE_LIMIT</code></td><td>429</td><td>audited API routes</td><td>Per-minute throttle; <code class="inline">Retry-After: 60</code>.</td></tr>
+              <tr><td><code class="inline">SCREENSHOT_RATE_LIMIT</code></td><td>429</td><td>order/screenshot</td><td>Extra screenshot-only throttle.</td></tr>
+              <tr><td><code class="inline">JOB_NOT_FOUND</code></td><td>404</td><td>order/screenshot</td><td>No job for this API key.</td></tr>
+              <tr><td><code class="inline">JOB_NOT_READY</code></td><td>409</td><td>order/screenshot</td><td>Job still pending/running.</td></tr>
+              <tr><td><code class="inline">JOB_NOT_SUCCESSFUL</code></td><td>400</td><td>order/screenshot</td><td>Job not <code class="inline">done</code> (e.g. failed).</td></tr>
+              <tr><td><code class="inline">NO_ORDER_DETAILS</code></td><td>400</td><td>order/screenshot</td><td>No success row / check-code / failed redeem.</td></tr>
+              <tr><td><code class="inline">WEBP_ENCODE_FAILED</code></td><td>501</td><td>order/screenshot</td><td>Server cannot encode WebP.</td></tr>
+              <tr><td><code class="inline">ORDER_SCREENSHOT_FAILED</code></td><td>500</td><td>order/screenshot</td><td>Unexpected render error.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted-note reveal">Auth failures often use a plain string <code class="inline">detail</code> (<code class="inline">Missing X-API-Key header</code>, <code class="inline">Invalid or revoked API key</code>, subscription text). Quota on sync lookup may return <code class="inline">detail: "quota_exhausted"</code>.</p>
+      </div>
+    </section>
+
+    <section class="band" id="jobs">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>4) Job lifecycle</h2>
+          <p>Create → poll → branch. Applies to <code class="inline">check_code</code>, <code class="inline">manual_redeem</code>, <code class="inline">stock_redeem</code>.</p>
+        </div>
+        <h3 class="reveal">Create response (HTTP 200)</h3>
+        <div class="terminal reveal">
+          <div class="terminal-bar"><span></span><span></span><span></span> JSON · POST job</div>
+          <pre>{
+  "job_id": "674a1b2c3d4e5f60718293a4",
+  "status": "pending"
+}</pre>
+        </div>
+        <h3 class="reveal" style="margin-top:1.5rem">Poll fields</h3>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>Field</th><th>Values / notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code class="inline">status</code></td><td><code class="inline">pending</code> · <code class="inline">running</code> · <code class="inline">done</code> · <code class="inline">failed</code></td></tr>
+              <tr><td><code class="inline">type</code></td><td><code class="inline">check_code</code> · <code class="inline">manual_redeem</code> · <code class="inline">stock_redeem</code></td></tr>
+              <tr><td><code class="inline">result</code></td><td>Present when worker finished with a result payload (typically <code class="inline">done</code>). Sanitized — no Midas emails/sessions.</td></tr>
+              <tr><td><code class="inline">error</code></td><td>String when <code class="inline">status</code> is <code class="inline">failed</code> (job never produced a usable redeem result).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 class="reveal" style="margin-top:1.5rem">Job-level <code class="inline">error</code> strings (<code class="inline">status: failed</code>)</h3>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>error</th><th>Meaning</th><th>Client action</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code class="inline">quota_exhausted</code> / <code class="inline">quota_exhausted:…</code></td><td>Daily/trial requests insufficient when worker ran.</td><td><code class="inline">GET /v1/quota</code>; wait for UTC reset or upgrade.</td></tr>
+              <tr><td><code class="inline">invalid_payload</code></td><td>Empty codes / bad picks after queue.</td><td>Fix request body.</td></tr>
+              <tr><td><code class="inline">invalid_player_id</code></td><td>Player id rejected by worker.</td><td>Validate digits before POST.</td></tr>
+              <tr><td><code class="inline">no_codes</code> / inventory messages</td><td>Stock redeem could not reserve requested denominations.</td><td><code class="inline">GET /v1/stock/summary</code>; lower picks.</td></tr>
+              <tr><td><code class="inline">unknown_job_type:…</code></td><td>Internal mismatch (rare).</td><td>Contact support.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="redeem">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>5) Redeem outcome — <code class="inline">err_code</code> catalog</h2>
+          <p>
+            Used on <code class="inline">manual_redeem</code> / <code class="inline">stock_redeem</code> when job is
+            <code class="inline">done</code>. Inspect <code class="inline">result.results[]</code> (batch) or top-level
+            <code class="inline">success</code> / <code class="inline">msg</code> / <code class="inline">err_code</code> (single).
+          </p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>err_code</th><th>success</th><th>Meaning</th><th>Recommended UX</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><em>(empty / omitted)</em></td>
+                <td><span class="badge badge-ok">true</span></td>
+                <td>UC credited. Row includes <code class="inline">order_details</code> (receipt fields).</td>
+                <td>Show success + optional screenshot via <code class="inline">job_id</code>.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">REDEEM_CODE_ALREADY_USED</code></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>Voucher already redeemed elsewhere.</td>
+                <td>Mark code dead; do not retry same code.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">CODE_EXPIRED</code></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>Voucher past expiry.</td>
+                <td>Mark expired; do not retry.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">PLAYER_NOT_FOUND</code></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>No PUBG character for Player ID. Public <code class="inline">msg</code> is human-readable English.</td>
+                <td>Ask buyer to re-check Player ID; run lookup first.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">PLAYER_BANNED</code></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>Account restricted in-game; UC cannot be sent.</td>
+                <td>Refuse order / refund policy as you choose.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">PLAYER_RISK_LIMITED</code></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>Player ID blocked from receiving UC (risk controls).</td>
+                <td>Advise buyer to contact PUBG support.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">ROLE_INACTIVE_LONG_TIME</code></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>Wrong ID or account inactive for a very long time.</td>
+                <td>Ask player to log into PUBG Mobile, then retry.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">REDEEM_FAILED</code></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>Neutral public failure (internal capacity/routing mapped away).</td>
+                <td>Retry later; verify Player ID; contact support if repeated.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">CDKEY_STATUS_INVALID</code></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>Upstream rejected voucher state (not a clean unused code).</td>
+                <td>Run check-code; do not assume unused.</td>
+              </tr>
+              <tr>
+                <td><code class="inline">MISSING_PRODUCT_INFO</code></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>Could not map voucher to a product SKU.</td>
+                <td>Retry once; escalate if persistent.</td>
+              </tr>
+              <tr>
+                <td><em>other / empty on failure</em></td>
+                <td><span class="badge badge-err">false</span></td>
+                <td>Transport or transient upstream issues (may include gateway-style codes internally).</td>
+                <td>Show <code class="inline">msg</code>; retry with backoff.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout reveal">
+          Public API responses never include Midas account emails, session tokens, or raw internal routing tokens.
+          Those map to safe <code class="inline">msg</code> + <code class="inline">err_code</code> values above.
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="check">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>6) Check-code outcomes</h2>
+          <p>Job usually ends <code class="inline">done</code> with a result object. Use <code class="inline">ok</code>, <code class="inline">cdkey_status</code>, and mapped <code class="inline">err_code</code>.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>Signal</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code class="inline">ok: true</code> + <code class="inline">cdkey_status: 1</code></td><td>Unused / available voucher (typical “safe to sell”).</td></tr>
+              <tr><td><code class="inline">ok: true</code> + <code class="inline">cdkey_status: 2</code></td><td>Already used (treat as dead inventory).</td></tr>
+              <tr><td><code class="inline">err_code: INVALID_OR_EXPIRED_CODE</code></td><td>No usable code info from upstream (<code class="inline">reason</code> was <code class="inline">no_code_info</code>).</td></tr>
+              <tr><td><code class="inline">err_code: CODE_EXPIRED</code></td><td>Confirmed expired; may include <code class="inline">expired_confirmed: true</code>.</td></tr>
+              <tr><td><code class="inline">err_code: PLAYER_NOT_FOUND</code></td><td>Player context missing / not found during query path.</td></tr>
+              <tr><td><code class="inline">err_code: ROLE_INACTIVE_LONG_TIME</code></td><td>Inactive / stale role for linked player context.</td></tr>
+              <tr><td><code class="inline">err_code: SERVICE_UNAVAILABLE</code></td><td>Temporary service/account shortage (neutral message).</td></tr>
+              <tr><td><code class="inline">cdkey_expires_at_unix</code> / <code class="inline">cdkey_expires_at_utc</code></td><td>Present when Midas returns parseable expiry.</td></tr>
+              <tr><td><code class="inline">batch: true</code> + <code class="inline">results[]</code></td><td>Multi-code job; evaluate each row independently.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="lookup">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>7) Player lookup (synchronous)</h2>
+          <p><code class="inline">GET /v1/player/lookup?player_id=…</code> — no job. Quota <strong>0.25</strong> only on HTTP 200.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>HTTP</th><th>Body highlight</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>200</td>
+                <td><code class="inline">ok</code>, <code class="inline">player_id</code>, <code class="inline">player_name</code>, <code class="inline">quota_requests_charged</code></td>
+                <td>Show nickname at checkout.</td>
+              </tr>
+              <tr>
+                <td>400</td>
+                <td><code class="inline">INVALID_PLAYER_ID</code> or <code class="inline">player_id is required</code></td>
+                <td>Client validation failed.</td>
+              </tr>
+              <tr>
+                <td>404</td>
+                <td><code class="inline">PLAYER_NOT_FOUND</code></td>
+                <td>No character — do not redeem.</td>
+              </tr>
+              <tr>
+                <td>403</td>
+                <td><code class="inline">PLAYER_BANNED</code></td>
+                <td>Blocked account.</td>
+              </tr>
+              <tr>
+                <td>429</td>
+                <td><code class="inline">quota_exhausted</code></td>
+                <td>Not enough remaining requests.</td>
+              </tr>
+              <tr>
+                <td>502</td>
+                <td><code class="inline">LOOKUP_FAILED</code></td>
+                <td>No quota charged.</td>
+              </tr>
+              <tr>
+                <td>503</td>
+                <td><code class="inline">SERVICE_UNAVAILABLE</code></td>
+                <td>Retry shortly.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="screenshot">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>8) Order screenshot</h2>
+          <p><code class="inline">POST /api/v1/order/screenshot</code> with <code class="inline">{"job_id":"…"}</code>. Success = <code class="inline">Content-Type: image/webp</code> bytes.</p>
+        </div>
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr><th>HTTP</th><th>error</th><th>When</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>200</td><td>—</td><td>WebP body written.</td></tr>
+              <tr><td>404</td><td><code class="inline">JOB_NOT_FOUND</code></td><td>Wrong id / other account.</td></tr>
+              <tr><td>409</td><td><code class="inline">JOB_NOT_READY</code></td><td>Still pending/running.</td></tr>
+              <tr><td>400</td><td><code class="inline">JOB_NOT_SUCCESSFUL</code></td><td>Job failed / not done.</td></tr>
+              <tr><td>400</td><td><code class="inline">NO_ORDER_DETAILS</code></td><td>No successful redeem row (or check-code job).</td></tr>
+              <tr><td>429</td><td><code class="inline">RATE_LIMIT</code> / <code class="inline">SCREENSHOT_RATE_LIMIT</code></td><td>Throttle; wait 60s.</td></tr>
+              <tr><td>501</td><td><code class="inline">WEBP_ENCODE_FAILED</code></td><td>Encoder unavailable.</td></tr>
+              <tr><td>500</td><td><code class="inline">ORDER_SCREENSHOT_FAILED</code></td><td>Unexpected render failure.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="examples">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>9) JSON examples</h2>
+          <p>Representative shapes your client should parse.</p>
+        </div>
+
+        <h3 class="reveal">Redeem success (batch row)</h3>
+        <div class="terminal reveal">
+          <div class="terminal-bar"><span></span><span></span><span></span> status: done · success path</div>
+          <pre>{
+  "status": "done",
+  "type": "manual_redeem",
+  "error": null,
+  "result": {
+    "player_id": "5123456789",
+    "results": [
+      {
+        "success": true,
+        "msg": "",
+        "cdkey_name": "60 UC",
+        "charac_name": "Nickname",
+        "order_details": {
+          "status": "Success",
+          "product": "UC",
+          "rewards": "UC* 60",
+          "player_id": "5123456789",
+          "charac_name": "Nickname"
+        }
+      }
+    ]
+  }
+}</pre>
+        </div>
+
+        <h3 class="reveal" style="margin-top:1.5rem">Redeem failure row (already used)</h3>
+        <div class="terminal reveal">
+          <div class="terminal-bar"><span></span><span></span><span></span> status: done · business failure</div>
+          <pre>{
+  "status": "done",
+  "type": "manual_redeem",
+  "error": null,
+  "result": {
+    "player_id": "5123456789",
+    "results": [
+      {
+        "success": false,
+        "err_code": "REDEEM_CODE_ALREADY_USED",
+        "msg": "…"
+      }
+    ]
+  }
+}</pre>
+        </div>
+
+        <h3 class="reveal" style="margin-top:1.5rem">Job failed (quota)</h3>
+        <div class="terminal reveal">
+          <div class="terminal-bar"><span></span><span></span><span></span> status: failed</div>
+          <pre>{
+  "status": "failed",
+  "type": "manual_redeem",
+  "result": null,
+  "error": "quota_exhausted:daily"
+}</pre>
+        </div>
+
+        <h3 class="reveal" style="margin-top:1.5rem">HTTP validation error</h3>
+        <div class="terminal reveal">
+          <div class="terminal-bar"><span></span><span></span><span></span> HTTP 400</div>
+          <pre>{
+  "detail": {
+    "error": "INVALID_CODE",
+    "message": "Invalid voucher format at index 0.",
+    "code_sample": "short"
+  }
+}</pre>
+        </div>
+
+        <h3 class="reveal" style="margin-top:1.5rem">Rate limit</h3>
+        <div class="terminal reveal">
+          <div class="terminal-bar"><span></span><span></span><span></span> HTTP 429 · Retry-After: 60</div>
+          <pre>{
+  "detail": "rate_limit_exceeded",
+  "error": "RATE_LIMIT"
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="checklist">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>10) Client checklist</h2>
+          <p>Minimum branching for a production panel.</p>
+        </div>
+        <div class="faq reveal">
+          <details open>
+            <summary>After every authenticated call</summary>
+            <p>Handle 401 / 403 / 429 before parsing business data. Surface subscription problems separately from bad Player IDs.</p>
+          </details>
+          <details open>
+            <summary>After creating a job</summary>
+            <p>Poll <code class="inline">GET /v1/jobs/{id}</code> until <code class="inline">done</code> or <code class="inline">failed</code> (2–3s interval). Cap wait time and show “still processing” UI.</p>
+          </details>
+          <details open>
+            <summary>When status is done (redeem)</summary>
+            <p>Iterate <code class="inline">results[]</code>. Credit buyer only for <code class="inline">success: true</code>. Map <code class="inline">err_code</code> to clear storefront messages (used / expired / banned / not found).</p>
+          </details>
+          <details open>
+            <summary>When status is failed</summary>
+            <p>Read <code class="inline">error</code>. If it starts with <code class="inline">quota_exhausted</code>, pause the queue and refresh quota. Inventory errors → restock.</p>
+          </details>
+          <details open>
+            <summary>Before redeem</summary>
+            <p>Optional: lookup nickname; optional: check-code for inventory. Reduces refunds and support tickets.</p>
+          </details>
+        </div>
+        <div class="cta-row reveal" style="margin-top:1.75rem">
+          <a class="btn btn-primary" href="https://api.pubgredeemerbot.com/docs#responses" rel="noopener">Open live docs</a>
+          <a class="btn btn-ghost" href="./recipes.html">Recipes</a>
+          <a class="btn btn-ember" href="https://telegram.me/SparkUCBot" rel="noopener">Get API key</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-grid">
+      <div>
+        <strong>Spark UC API Hub</strong>
+        <p>Response catalog for integrators. Canonical live copy also lives under <a href="https://api.pubgredeemerbot.com/docs#responses" rel="noopener">/docs#responses</a>.</p>
+      </div>
+      <div>
+        <strong>Build</strong>
+        <ul>
+          <li><a href="./">Hub</a></li>
+          <li><a href="./recipes.html">Recipes</a></li>
+          <li><a href="./bot.html">Telegram bot</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Product</strong>
+        <ul>
+          <li><a href="https://www.pubgredeemerbot.com/" rel="noopener">Official site</a></li>
+          <li><a href="https://telegram.me/sparkuc_support" rel="noopener">Support</a></li>
+          <li><a href="https://github.com/aliothman123/spark-uc-midasbuy-api" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap disclaimer">
+      Independent developer service. Not affiliated with Midasbuy, Krafton, Tencent, or PUBG Mobile.
+    </div>
+  </footer>
+  <script src="./assets/js/main.js" defer></script>
+</body>
+</html>

@@ -6,4 +6,13 @@ Standalone developer hub (different design from [pubgredeemerbot.com](https://ww
 
 After deploy: https://aliothman123.github.io/spark-uc-midasbuy-api/
 
-Copy the *contents* of this folder to branch `gh-pages` (root) or to `/docs` on `main`.
+Pages:
+
+| File | Purpose |
+|------|---------|
+| `index.html` | Developer hub |
+| `responses.html` | Full success/failure / `err_code` catalog |
+| `recipes.html` | Integration patterns |
+| `bot.html` | Telegram bot landing |
+
+Copy the *contents* of this folder to branch **`gh-pages`** at repo root (recommended). Do not overwrite `main/docs` Markdown with these HTML files.
